@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mt5-api"
+version = "0.1.0"
+description = "Thin FastAPI layer exposing MetaTrader5 COM interface, with a simple client library."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+license = { text = "MIT" }
+
+# Base dependencies — shared by both client and server if needed
+# Keep this minimal: only things that are always required
+dependencies = [
+    "pydantic>=2.8",
+]
+
+# Optional groups
+[project.optional-dependencies]
+
+# Server-side dependencies (Windows-only MetaTrader)
+server = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "pandas>=2.2",
+    "MetaTrader5>=5.0; platform_system == 'Windows'",
+]
+
+# Client-side dependencies (Mac/Linux users)
+client = [
+    "requests>=2.32",
+]
+
+# Development tools — include testing, linting, formatting, etc.
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.23",
+    "httpx>=0.27",
+    "ruff>=0.5",
+    "black>=24.3",
+    "isort>=5.13",
+]
+
+[tool.setuptools.packages.find]
+include = ["server*", "client*"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+
+[tool.ruff]
+line-length = 88
+extend-select = ["I", "UP"]
